@@ -31,4 +31,4 @@ try:
         print(f"Sentiment Score: {sentiment:.2f} → Neutral 😐")
 
 except Exception as e:
-    print(f"⚠️ An error occurred: {e}")
+    print(f"⚠️ An error occurred : {e}")
