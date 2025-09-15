@@ -1,20 +1,34 @@
 from textblob import TextBlob
 from newspaper import Article
 
-selection=int(input("Please Select from the source following \n URL(Enter 1) \n File path(Enter 2) \n "))
+try:
+    selection = int(input("Please select a source:\n1. URL\n2. File Path\nEnter your choice: "))
 
-if selection==1:
-    url=input("Enter the URL of the article: ")
-    article = Article(url)
-    article.download()
-    article.parse()
-    text=article.text
-else:
-    file = input('Please enter the file name : ')
+    if selection == 1:
+        url = input("Enter the URL of the article: ").strip()
+        article = Article(url)
+        article.download()
+        article.parse()
+        text = article.text
 
-    with open(file, 'r') as f:
-        text = f.read()
+    elif selection == 2:
+        file = input("Enter the file path: ").strip()
+        with open(file, 'r', encoding='utf-8') as f:
+            text = f.read()
+    else:
+        print("Invalid selection! Please choose 1 or 2.")
+        exit()
 
-blob = TextBlob(text)
-sentiment=blob.sentiment.polarity
-print(sentiment)
+    blob = TextBlob(text)
+    sentiment = blob.sentiment.polarity
+
+    # Display a more human-friendly sentiment result
+    if sentiment > 0:
+        print(f"Sentiment Score: {sentiment:.2f} → Positive 😊")
+    elif sentiment < 0:
+        print(f"Sentiment Score: {sentiment:.2f} → Negative 😠")
+    else:
+        print(f"Sentiment Score: {sentiment:.2f} → Neutral 😐")
+
+except Exception as e:
+    print(f"⚠️ An error occurred: {e}")
